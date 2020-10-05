@@ -7,11 +7,14 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 def process(file_path):
-    start_time = time.time()
-
-    logging.info('Reading input file %s ...', file_path) # virgola, anzichè % file_path. il punto è che logging è fatto in modo da formattare la stringa solo se deve stampare la particolare stringa-->dipende dal level di logging
+    ''' boh '''
+    logging.info('Reading input file %s ...', file_path)
+    # virgola, anzichè % file_path. il punto è che logging è fatto in modo da
+    # formattare la stringa solo se deve stampare la particolare stringa-->dipende
+    # dal level di logging
     with open(file_path) as input_file:
-        # with permette di aprire il file in modo più bello: quando esco dal with il file viene chiuso automaticamente!!
+        # with permette di aprire il file in modo più bello:
+        # quando esco dal with il file viene chiuso automaticamente!!
         text = input_file.read()
     num_chars = len(text)
     logging.info('Done, %d characters found', num_chars)
@@ -32,14 +35,22 @@ def process(file_path):
     for ch, num in char_dict.items():
         print(f'{ch} -> {num/num_letters:.3%}')
 
-    elapsed_time = time.time() - start_time
-    logging.info('Done in %.4f seconds', elapsed_time)
+def istogram():
+    pass
 
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('infile', type = str, help='Path to the input file')
-    #parser.add_argument('hist', type = int, help='set 1 to create histogram of letter-occurrences, set 0 to not create the histogram')
+    parser.add_argument('hist', type = int, nargs = '?', const= 1, default = 0 ,help='set 1 to create histogram of letter-occurrences, set 0 to not create the histogram')
     args = parser.parse_args()
-    process(args.infile
+    start_time = time.time()
+    occur = process(args.infile)
+    if (args.hist==1):
+        histogram()
+    elapsed_time = time.time() - start_time
+    logging.info('Done in %.4f seconds', elapsed_time)
+
+
+    # devi proseguire facendo ritornare le frequenze alla funzione process()
