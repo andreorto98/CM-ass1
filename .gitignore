@@ -6,6 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
+# file di prova
+ass1_p.py
+try.py
+es.txt
+
 # Distribution / packaging
 .Python
 build/
