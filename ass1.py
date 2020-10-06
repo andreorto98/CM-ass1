@@ -2,12 +2,13 @@ import argparse
 import logging
 import time
 import string
+import matplotlib.pyplot as plt
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 
 def process(file_path):
-    ''' boh '''
+    ''' found the frequences of the differnt letters and return a list with the occurrences '''
     logging.info('Reading input file %s ...', file_path)
     # virgola, anzichè % file_path. il punto è che logging è fatto in modo da
     # formattare la stringa solo se deve stampare la particolare stringa-->dipende
@@ -27,7 +28,7 @@ def process(file_path):
             pass
     # KeyError viene sollevato quando tento di accedere a un dizionario con una chiave che non esiste
 
-    # Il libro vero inizia con I went down
+    # Il libro vero inizia con 'I went down'
 
     num_letters = sum(char_dict.values())
     logging.debug(char_dict)
@@ -35,9 +36,13 @@ def process(file_path):
     for ch, num in char_dict.items():
         print(f'{ch} -> {num/num_letters:.3%}')
 
-def istogram():
-    pass
+    return [occ/num_letters for occ in list(char_dict.values())]
 
+
+def histogram(occ):
+    ''' produces an histogram with the given frequences of the letters '''
+    plt.bar(list(string.ascii_lowercase), occ)
+    plt.show()
 
 
 if __name__ == '__main__':
@@ -47,10 +52,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     start_time = time.time()
     occur = process(args.infile)
-    if (args.hist==1):
-        histogram()
     elapsed_time = time.time() - start_time
     logging.info('Done in %.4f seconds', elapsed_time)
-
-
-    # devi proseguire facendo ritornare le frequenze alla funzione process()
+    if (args.hist==1):
+        histogram(occur)
